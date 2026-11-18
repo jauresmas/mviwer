@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Application mviewer : Diagnostic foncier ZAN - Métropole Rouen Normandie
+  Ouvrir : http://localhost:8095/?config=apps/perso/zan_rouen.xml
+  Données : PostGIS (base zan_rouen, schéma zan) publiées par GeoServer (espace de travail zan_rouen)
+  Pour ajouter une couche : copier un bloc <layer>, mettre dans id le nom de la couche GeoServer.
+-->
+<config>
+    <application title="Diagnostic foncier ZAN - Rouen" mouseposition="true" measuretools="true"
+        exportpng="true" mapprint="false" togglealllayersfromtheme="true"/>
+
+    <mapoptions maxzoom="20" projection="EPSG:3857" center="122373,6350400" zoom="11"
+        projextent="-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244"/>
+
+    <baselayers style="gallery">
+        <baselayer type="WMTS" id="planign" label="Plan IGN" title="Géoplateforme IGN" thumbgallery="img/basemap/osm.png"
+            url="https://data.geopf.fr/wmts" layers="GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" format="image/png"
+            style="normal" matrixset="PM" maxzoom="19" fromcapacity="false" visible="true"
+            attribution="&lt;a href='https://geoservices.ign.fr/' target='_blank'>IGN - Géoplateforme&lt;/a>"/>
+        <baselayer type="WMTS" id="ortho" label="Photo aérienne IGN" title="Géoplateforme IGN" thumbgallery="img/basemap/ortho.jpg"
+            url="https://data.geopf.fr/wmts" layers="ORTHOIMAGERY.ORTHOPHOTOS" format="image/jpeg"
+            style="normal" matrixset="PM" maxzoom="22" fromcapacity="false" visible="false"
+            attribution="&lt;a href='https://geoservices.ign.fr/' target='_blank'>IGN - Géoplateforme&lt;/a>"/>
+    </baselayers>
+
+    <proxy url=""/>
+    <olscompletion url="https://data.geopf.fr/geocodage/search" type="search" attribution="Recherche d'adresse : IGN - BAN"/>
+    <searchparameters bbox="false" localities="true" features="false"/>
+
+    <themes>
+        <theme name="Diagnostic foncier" id="diagnostic" collapsed="false" icon="fas fa-search-location">
+            <layer id="gisements_densification" name="Gisements de densification" visible="true" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"
+                attribution="Métropole Rouen Normandie - diagnostic ZAN"/>
+            <layer id="divisions_parcellaires" name="Parcelles divisées 2018-2026" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+            <layer id="lots_issus_divisions" name="Lots issus des divisions" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+        </theme>
+
+        <theme name="Indicateurs communaux" id="indicateurs" collapsed="true" icon="fas fa-chart-bar">
+            <layer id="communes_indicateurs" name="Indicateurs par commune" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="1"
+                style="communes,ind_artif_nette,ind_conso_1121,ind_part_artif_2022,ind_logements,ind_divisions,ind_div_deja_artif,ind_au_non_artif,ind_rythme_2021"
+                stylesalias="Limites communales,Artificialisation nette 2019-2022,Consommation d'ENAF 2011-2021,Part artificialisée (2022),Logements mobilisables à 10 ans,Parcelles divisées (2018-2026),Divisions sur terrain déjà artificialisé,Zones AU non artificialisées,Évolution du rythme depuis 2021"
+                styletitle="Indicateur"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+            <layer id="communes_centroides" name="Destination et consommation (symboles)" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="1"
+                style="destination_dominante,conso_enaf_cercles"
+                stylesalias="Destination dominante,Consommation d'ENAF 2011-2021 (cercles)"
+                styletitle="Représentation"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+        </theme>
+
+        <theme name="Occupation du sol" id="occupation" collapsed="true" icon="fas fa-city">
+            <layer id="ocsge_flux_2019_2022" name="Artificialisation 2019-2022 (OCS GE)" visible="false" tiled="true"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms" attribution="IGN - OCS GE"/>
+            <layer id="bdtopo_batiments_etude" name="Bâtiments (BD TOPO)" visible="false" tiled="true"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5" scalemin="0" scalemax="25000"
+                url="http://localhost:8096/geoserver/zan_rouen/wms" attribution="IGN - BD TOPO"/>
+            <layer id="cadastre_parcelles_etude" name="Parcelles cadastrales" visible="false" tiled="true"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5" scalemin="0" scalemax="25000"
+                url="http://localhost:8096/geoserver/zan_rouen/wms" attribution="DGFiP - cadastre"/>
+        </theme>
+
+        <theme name="Planification (PLUi)" id="plui" collapsed="true" icon="fas fa-map">
+            <layer id="plui_zonage_qualifie" name="Zonage PLUi simplifié" visible="false" tiled="true"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+            <layer id="plui_zones_au" name="Zones à urbaniser par vocation" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+            <layer id="contraintes_prescriptions" name="Prescriptions excluantes (PLUi)" visible="false" tiled="false"
+                queryable="true" infoformat="application/vnd.ogc.gml" featurecount="5"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+        </theme>
+
+        <theme name="Repères" id="reperes" collapsed="true" icon="fas fa-water">
+            <layer id="perimetre_metropole" name="Périmètre de la Métropole" visible="true" tiled="false"
+                queryable="false"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+            <layer id="surfaces_eau" name="Seine et plans d'eau" visible="false" tiled="false"
+                queryable="false"
+                url="http://localhost:8096/geoserver/zan_rouen/wms"/>
+        </theme>
+    </themes>
+</config>

@@ -1,0 +1,6 @@
+# Fins de ligne LF partout : les scripts bash et le .env (lu par bash) cassent avec CRLF sous Windows
+* text=auto eol=lf
+
+*.jpg binary
+*.png binary
+*.ttf binary

@@ -1,0 +1,13 @@
+# Secrets locaux (mots de passe GeoServer et PostgreSQL)
+.env
+
+# Polices : souvent propriétaires (ex. Segoe UI de Microsoft), ne pas les publier.
+# Chacun copie ses propres .ttf dans fonts/ (voir fonts/LISEZMOI.md).
+fonts/*
+!fonts/LISEZMOI.md
+
+# Divers
+__pycache__/
+*.pyc
+Thumbs.db
+.DS_Store
